@@ -1,0 +1,180 @@
+<%@page import="db.DbConnect"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" >
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+ 
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/custom.css" rel="stylesheet" />	
+<link href="datetimepicker/css/datetimepicker.min.css" rel="stylesheet"  />
+</head>
+ 
+    
+  <body data-spy="scroll" data-target="#my-navbar">
+ 
+ 
+	
+		<div class="container">
+			<section>
+                            <%
+                    String m=(String)session.getAttribute("msg");
+                    if(m!=null){
+                    %>
+                        <div class="panel">
+                            <div class="panel-body bg-danger text-center">
+                                <%=m%>
+                            </div>
+                        </div>
+                    <%   
+                        session.setAttribute("msg",null);
+                    }
+                    %>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h3>Registration</h3>
+						</div>
+						<div class="panel-body">
+							<form action="Register" method='post' data-toggle="validator" enctype='multipart/form-data'  class="form-horizontal">
+								<div class="form-group">
+									<label for="email" class="col-lg-3 control-label">Email:</label>
+									<div class="col-lg-9">
+										<input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="name" class="col-lg-3 control-label">Name:</label>
+									<div class="col-lg-9">
+										<input type="text" name="name" class="form-control" pattern="^[_A-Z a-z]{1,}$" id="name" placeholder="Enter your name" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="phone" class="col-lg-3 control-label">Phone:</label>
+									<div class="col-lg-9">
+										<input type="text" name='phone' class="form-control" pattern="^[_0-9]{1,}$" maxlength="10" id="phone" placeholder="Enter your phone" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="gender" class="col-lg-3 control-label">Gender:</label>
+									<div class="col-lg-9">
+										<input type="radio" id="gender" name="gender" value="male" checked/>Male
+										<input type="radio" id="gender" name="gender" value="female"/>Female
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="dob" class="col-lg-3 control-label">Date of Birth:</label>
+									<div class="col-lg-9">
+										<input type="text" name="dob" class="form-control" id="dob" placeholder="dd/MM/YYYY" required />
+									
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="state" class="col-lg-3 control-label">State:</label>
+									<div class="col-lg-9">
+										<select name="state" class="form-control" id="listBox" onchange='selct_district(this.value)'>
+										</select>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="city" class="col-lg-3 control-label">City:</label>
+									<div class="col-lg-9">
+										<select name="city" class="form-control" id='secondlist'>	
+										</select>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="area" class="col-lg-3 control-label">Area:</label>
+									<div class="col-lg-9">
+										
+										<input type="text" name="area" class="form-control" id="area" placeholder="Enter your Area" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="photo" class="col-lg-3 control-label">Photo:</label>
+									<div class="col-lg-9">
+										<input type="file" name="photo" class="form-control" id="photo" />
+										
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="pass" class="col-lg-3 control-label">Password:</label>
+									<div class="col-lg-9">
+										<input type="password" name="password" class="form-control" id="pass" placeholder="Enter your password" required/>
+									</div>
+								</div><!--end form group-->
+                                                                <div class="form-group">
+									<label for="cpass" class="col-lg-3 control-label">ConfirmPassword:</label>
+									<div class="col-lg-9">
+										<input type="password" name="cpass" class="form-control" id="pass" placeholder="Enter your password" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<div class="col-lg-10 col-lg-offset-3">
+										<input type="submit" class="btn btn-primary" value='Register'/>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h3>Login</h3>
+						</div>
+						<div class="panel-body">
+							<form action="login.jsp" data-toggle="validator" class="form-horizontal" method='post'>
+								<div class="form-group">
+									<label for="email" class="col-lg-3 control-label">Email:</label>
+									<div class="col-lg-9">
+										<input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required />
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+									<label for="password" class="col-lg-3 control-label">Password:</label>
+									<div class="col-lg-9">
+										<input type="password" name="pass" class="form-control" id="pass" placeholder="Enter your name" required/>
+									</div>
+								</div><!--end form group-->
+								<div class="form-group">
+		  							<div class="col-lg-10 col-lg-offset-3">
+										<button type="submit" class="btn btn-primary">Login</button>
+										<button type="reset" class="btn btn-primary">Reset</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-10 col-lg-offset-3">
+										<a href="forgotPass.jsp"><u>Forget Password?</u></a> <a href="index.jsp"><u>Home</u></a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<hr>
+	
+	
+	
+<script type="text/javascript" src="js/jquery-2.2.2.min.js" ></script>
+    <script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="js/script.js" ></script>
+  <script type="text/javascript" src="js/validator.js" ></script>
+<script type="text/javaScript" src='js/state.js' ></script>
+<script type="text/javascript" src="datetimepicker/js/moment.min.js" ></script>
+<script type="text/javascript" src="datetimepicker/js/datetimepicker.min.js" ></script>
+	<script type="text/javascript">
+    $(function () {
+        $('#dob').datetimepicker({
+        	format: 'DD/MM/YYYY',
+                maxDate: new Date()
+        });
+    });
+	</script>
+  </body>
+</html>
